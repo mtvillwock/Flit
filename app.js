@@ -10,4 +10,10 @@ angular.module("flit", [])
   { to: 1234567, from: 8675309, body: "Hey!"},
   ];
 
+  $scope.scheduleMessage = function(message) {
+    console.log(message);
+    $scope.newMessage = {};
+    $scope.messages.push(message);
+  }
+
 })

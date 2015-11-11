@@ -11,8 +11,11 @@
 
   <div class="message-list">
     <ul>
-      <li ng-repeat="message in messages" ng-show="message.length > 3">
-        {{ message }}</li>
+      <li ng-repeat="message in messages" ng-show="message.body.length > 4">
+        {{ message.body }}
+        <span class="recipient">To: {{ message.to }}</span>
+        <span class="sender">From: {{ message.from }}</span>
+      </li>
     </ul>
   </div>
 

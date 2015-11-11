@@ -7,7 +7,14 @@
 <body ng-controller="MainCtrl">
   <h1>Flit</h1>
   <input type="text" ng-model="message">
-  <p>{{ message }}</p>
+  <h2>{{ message }}</h2>
+
+  <div class="message-list">
+    <ul>
+      <li ng-repeat="message in messages">{{ message }}</li>
+    </ul>
+  </div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
   <script src="app.js"></script>
 </body>

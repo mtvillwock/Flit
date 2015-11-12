@@ -39,11 +39,20 @@ angular.module("flit", ["ui.router"])
 
 })
 
-.controller('MessagesShowCtrl', function($scope, $stateParams, Message) {
+.controller('MessagesShowCtrl', function($scope, $stateParams, Message, $http) {
     $scope.message = Message.get($stateParams.message_id);
     console.log($scope.message);
     // TODO: Extract data to service so it isn't being handled by controller
     // TODO: QUERY DB w/ params for Message
+    var query = 'http://api.giphy.com/v1/gifs/search?q=dog&api_key=dc6zaTOxFJmzC';
+    $http.get(query).then(
+      function(data){
+        $scope.gifs = data.data.data
+        console.log($scope.gifs);
+      },
+      function(error) {
+        console.log(error);
+      })
 })
 
 .factory('Message', function() {

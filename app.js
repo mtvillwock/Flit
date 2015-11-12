@@ -8,7 +8,7 @@ angular.module("flit", ["ui.router"])
     .state('index', {
       url: '/',
       templateUrl: "templates/messages/index.html",
-      controller: 'MessageCtrl'
+      controller: 'MessagesIndexCtrl'
     })
 })
 
@@ -18,7 +18,7 @@ angular.module("flit", ["ui.router"])
   $scope.greeting = "Hello";
 })
 
-.controller('MessageCtrl', function ($scope) {
+.controller('MessagesIndexCtrl', function ($scope) {
 
 
 $scope.messages = [

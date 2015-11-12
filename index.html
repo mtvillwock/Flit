@@ -22,7 +22,7 @@
     <input type="text" ng-model="message">
     <h2>{{ message }}</h2>
 
-    <form class="add-message" ng-submit="sendMessage(newMessage)">
+    <form class="add-message" ng-submit="scheduleMessage(newMessage)">
       <div class="input-group">
         <label for="body">Body</label>
         <input class="form-control" type="text" name="body" ng-model="newMessage.body">
@@ -35,7 +35,9 @@
         <label for="from">From</label>
         <input class="form-control" type="phone" name="from" ng-model="newMessage.from">
       </div>
-      <button type="submit" class="btn btn-success">Schedule!</button>
+      <div class="input-group">
+        <button type="submit" class="btn btn-success">Schedule!</button>
+      </div>
     </form>
 
     <div class="message-list">

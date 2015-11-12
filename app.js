@@ -1,9 +1,27 @@
-angular.module("flit", [])
+angular.module("flit", ["ui.router"])
 
+// CONFIG
+.config(function ($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider
+    .state('index', {
+      url: '/',
+      templateUrl: "templates/messages/index.html",
+      controller: 'MessageCtrl'
+    })
+})
+
+
+// CONTROLLERS
 .controller('MainCtrl', function ($scope) {
-  $scope.message = "Hello";
+  $scope.greeting = "Hello";
+})
 
-  $scope.messages = [
+.controller('MessageCtrl', function ($scope) {
+
+
+$scope.messages = [
   { to: 8675309, from: 1234567, body: "Hey buddy"},
   { to: 8675309, from: 1234567, body: "Wat?"},
   { to: 1234567, from: 8675309, body: "Great job dude"},

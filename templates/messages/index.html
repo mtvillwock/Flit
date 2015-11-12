@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="flit">
+<head>
+  <meta charset="UTF-8">
+  <title>Flit</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous"> -->
+
+  <script src="jquery.js"></script>
+
+  <!-- REQUIRES JQUERY -->
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</head>
+<body ng-controller="MainCtrl">
+  <div class="container">
+    <h1>Flit</h1>
+    <input type="text" ng-model="message">
+    <h2>{{ message }}</h2>
+
+    <form class="add-message" ng-submit="scheduleMessage(newMessage)">
+      <div class="input-group">
+        <label for="body">Body</label>
+        <input class="form-control" type="text" name="body" ng-model="newMessage.body">
+      </div>
+      <div class="input-group">
+        <label for="to">To</label>
+        <input class="form-control" type="phone" name="to" ng-model="newMessage.to">
+      </div>
+      <div class="input-group">
+        <label for="from">From</label>
+        <input class="form-control" type="phone" name="from" ng-model="newMessage.from">
+      </div>
+      <div class="input-group">
+        <button type="submit" class="btn btn-success">Schedule!</button>
+      </div>
+    </form>
+
+    <div class="message-list">
+      <ul>
+        <li ng-repeat="message in messages" ng-show="message.body.length > 4">
+          {{ message.body }}
+          <span class="recipient">To: {{ message.to }}</span>
+          <span class="sender">From: {{ message.from }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
+    <script src="app.js"></script>
+  </div>
+</body>
+</html>

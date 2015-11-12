@@ -23,10 +23,17 @@
 
   <div class="message-list">
     <ul>
-      <li ng-repeat="message in messages" ng-show="message.body.length > 4">
-        {{ message.body }}
-        <span class="recipient">To: {{ message.to }}</span>
-        <span class="sender">From: {{ message.from }}</span>
+      <!-- ui-sref = go to this state, using this parameter -->
+      <!-- similar to link_to in Rails -->
+      <li ng-repeat="message in messages">
+        <!-- TODO: add scheduled/delivered filter -->
+        <!-- Not using filter now -->
+        <!-- ng-show="message.body.length > 4" -->
+        <a ui-sref="messages-show({message_id: message.id})">
+          {{ message.body }}
+          <span class="recipient">To: {{ message.to }}</span>
+          <span class="sender">From: {{ message.from }}</span>
+        </a>
       </li>
     </ul>
   </div>

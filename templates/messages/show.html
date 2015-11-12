@@ -1,0 +1,11 @@
+<!-- Takes user to messages index page -->
+<a ui-sref="messages-index">Back to Messages</a>
+<div ng-controller="MessagesShowCtrl" class="message">
+  <h3>Message: {{ message.id }}</h3>
+  <!-- TODO: display phone owner name instead of message from number -->
+  <span class="from">{{ message.from }}</span>
+  <p class="message-body">
+    {{ message.body }}
+  </p>
+  <span class="to">{{ message.to }}</span>
+</div>

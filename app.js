@@ -24,35 +24,14 @@ angular.module("flit", ["ui.router"])
     $scope.greeting = "Hello";
 })
 
-.controller('MessagesIndexCtrl', function($scope) {
-    $scope.message_id = 0;
+.controller('MessagesIndexCtrl', function($scope, Message) {
 
-    $scope.messages = [{
-        id: 1,
-        to: 8675309,
-        from: 1234567,
-        body: "Hey buddy"
-    }, {
-        id: 2,
-        to: 8675309,
-        from: 1234567,
-        body: "Wat?"
-    }, {
-        id: 3,
-        to: 1234567,
-        from: 8675309,
-        body: "Great job dude"
-    }, {
-        id: 4,
-        to: 1234567,
-        from: 8675309,
-        body: "Hey!"
-    }, ];
+    $scope.messages = Message.all();
 
     $scope.scheduleMessage = function(message) {
         console.log("New:", message);
         $scope.newMessage = {};
-        message.id = $scope.messages.length+2;
+        message.id = $scope.messages.length + 2;
         console.log("new w/ id:", message);
         // message.id = $scope.message_id;
         $scope.messages.push(message);
@@ -60,14 +39,42 @@ angular.module("flit", ["ui.router"])
 
 })
 
-.controller('MessagesShowCtrl', function($scope, $stateParams) {
-    $scope.message_id = $stateParams.message_id;
+.controller('MessagesShowCtrl', function($scope, $stateParams, Message) {
+    $scope.message = Message.get($stateParams.message_id);
+    console.log($scope.message);
     // TODO: Extract data to service so it isn't being handled by controller
     // TODO: QUERY DB w/ params for Message
-    $scope.message = {
-        id: $scope.message_id,
+})
+
+.factory('Message', function() {
+    var messages = [{
+        id: 1,
+        to: 8675309,
+        from: 1234567,
+        body: "Hey buddy"
+    }, {
+        id: 3,
         to: 1234567,
         from: 8675309,
         body: "Great job dude"
+    }];
+
+    return {
+      all: function() {
+        return messages;
+      },
+      remove: function(messageId) {
+        messages.splice(messages.indexOf(messageId), 1);
+      },
+      get: function(messageId) {
+        var foundMessage;
+        messages.forEach(function(message) {
+          if (message.id == messageId) {
+            console.log(message)
+            foundMessage = message;
+          }
+        });
+        return foundMessage;
+      }
     }
 })

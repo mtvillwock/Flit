@@ -1,0 +1,20 @@
+<div ng-controller="MessagesEditCtrl" class="message-update">
+  <h1>Reschedule Your Message</h1>
+  <form class="update-message" ng-submit="updateMessage(message)">
+    <div class="input-group">
+      <label for="body">Body</label>
+      <input class="form-control" type="text" name="body" ng-model="message.body" value="{{message.body}}">
+    </div>
+    <div class="input-group">
+      <label for="to">To</label>
+      <input class="form-control" type="phone" name="to" ng-model="message.to" value="{{message.to}}">
+    </div>
+    <div class="input-group">
+      <label for="from">From</label>
+      <input class="form-control" type="phone" name="from" ng-model="message.from" value="{{message.from}}">
+    </div>
+    <div class="input-group">
+      <button type="submit" class="btn btn-primary">Update!</button>
+    </div>
+  </form>
+</div>

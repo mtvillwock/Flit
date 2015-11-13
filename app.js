@@ -11,20 +11,25 @@ angular.module("flit", ["ui.router"])
             controller: 'MessagesIndexCtrl'
         })
 
-    .state('messages-show', {
-        url: '/messages/:message_id',
-        templateUrl: "templates/messages/show.html",
-        controller: 'MessagesShowCtrl'
-    })
     .state('messages-scheduled', {
-      url: '/api/messages/scheduled',
+      url: '/messages/scheduled',
       templateUrl: "templates/messages/scheduled.html",
       controller: 'MessagesScheduledCtrl'
     })
     .state('messages-sent', {
-      url: '/api/messages/sent',
+      url: '/messages/sent',
       templateUrl: "templates/messages/sent.html",
       controller: 'MessagesSentCtrl'
+    })
+    .state('messages-edit', {
+      url: '/messages/:message_id/edit',
+      templateUrl: "templates/messages/edit.html",
+      controller: 'MessagesEditCtrl'
+    })
+    .state('messages-show', {
+        url: '/messages/:message_id',
+        templateUrl: "templates/messages/show.html",
+        controller: 'MessagesShowCtrl'
     })
 })
 
@@ -44,6 +49,7 @@ angular.module("flit", ["ui.router"])
         message.id = $scope.messages.length + 2;
         console.log("new w/ id:", message);
         // message.id = $scope.message_id;
+        // POST /api/messages
         $scope.messages.push(message);
     }
 })
@@ -52,12 +58,14 @@ angular.module("flit", ["ui.router"])
   $scope.messages = Message.all();
 
   $scope.deleteMessage = function() {
-    // delete message here using $stateParams.id
+    // delete message here using $stateParams.message_id
+    // delete /api/messages/:message_id
     console.log("deleteMessage button clicked");
   }
 
   $scope.sendMessage = function() {
     // ping server API to ping Twilio
+    // PUT /api/messages/:message_id (update)
     console.log("sendMessage button clicked");
   }
 })
@@ -67,8 +75,26 @@ angular.module("flit", ["ui.router"])
 
   $scope.deleteMessage = function() {
     // delete message here using $stateParams.id
+    // delete /api/messages/:message_id
     console.log("deleteMessage button clicked");
   }
+})
+
+.controller('MessagesEditCtrl', function($scope, Message, $stateParams, $location) {
+  $scope.message = Message.get($stateParams.message_id);
+  console.log($scope.message)
+
+  $scope.updateMessage = function(message) {
+        console.log("updated:", message);
+        $scope.message = message;
+        $scope.editMessage = {};
+        console.log(message);
+        // TODO:
+        // Call to DB to update message
+        // PUT /api/messages/:message_id
+        // redirect to scheduled
+        $location.path('/messages/scheduled');
+    }
 })
 
 .controller('MessagesShowCtrl', function($scope, $stateParams, Message, $http) {

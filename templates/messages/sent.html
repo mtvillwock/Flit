@@ -1,5 +1,5 @@
-<h1>{{ User.name }}'s sent messages</h1>
 <div ng-controller="MessagesSentCtrl" class="message-list">
+<h1>{{ User.name }}'s sent messages</h1>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="message in messages">
       <a ui-sref="messages-show({message_id: message.id})">
@@ -7,7 +7,7 @@
         <span class="recipient">To: {{ message.to }}</span>
         <span class="sender">From: {{ message.from }}</span>
       </a>
-      <button ng-submit="deleteMessage()" class="btn btn-danger">Delete</button>
+      <button ng-click="deleteMessage({message_id: message.id})" class="btn btn-danger">Delete</button>
     </li>
   </ul>
 </div>

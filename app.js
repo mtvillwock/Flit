@@ -21,6 +21,11 @@ angular.module("flit", ["ui.router"])
       templateUrl: "templates/messages/scheduled.html",
       controller: 'MessagesScheduledCtrl'
     })
+    .state('messages-sent', {
+      url: '/api/messages/sent',
+      templateUrl: "templates/messages/sent.html",
+      controller: 'MessagesSentCtrl'
+    })
 })
 
 
@@ -44,6 +49,20 @@ angular.module("flit", ["ui.router"])
 })
 
 .controller('MessagesScheduledCtrl', function($scope, Message, $stateParams) {
+  $scope.messages = Message.all();
+
+  $scope.deleteMessage = function() {
+    // delete message here using $stateParams.id
+    console.log("deleteMessage button clicked");
+  }
+
+  $scope.sendMessage = function() {
+    // ping server API to ping Twilio
+    console.log("sendMessage button clicked");
+  }
+})
+
+.controller('MessagesSentCtrl', function($scope, Message, $stateParams) {
   $scope.messages = Message.all();
 
   $scope.deleteMessage = function() {

@@ -1,4 +1,4 @@
-angular.module("flit", ["ui.router"])
+angular.module("flit", ["ui.router", 'ngResource'])
 
 // CONFIG
 .config(function($stateProvider, $urlRouterProvider) {
@@ -12,25 +12,25 @@ angular.module("flit", ["ui.router"])
         })
 
     .state('messages-scheduled', {
-      url: '/messages/scheduled',
-      templateUrl: "templates/messages/scheduled.html",
-      controller: 'MessagesScheduledCtrl'
+        url: '/messages/scheduled',
+        templateUrl: "templates/messages/scheduled.html",
+        controller: 'MessagesScheduledCtrl'
     })
-    .state('messages-sent', {
-      url: '/messages/sent',
-      templateUrl: "templates/messages/sent.html",
-      controller: 'MessagesSentCtrl'
-    })
-    .state('messages-edit', {
-      url: '/messages/:message_id/edit',
-      templateUrl: "templates/messages/edit.html",
-      controller: 'MessagesEditCtrl'
-    })
-    .state('messages-show', {
-        url: '/messages/:message_id',
-        templateUrl: "templates/messages/show.html",
-        controller: 'MessagesShowCtrl'
-    })
+        .state('messages-sent', {
+            url: '/messages/sent',
+            templateUrl: "templates/messages/sent.html",
+            controller: 'MessagesSentCtrl'
+        })
+        .state('messages-edit', {
+            url: '/messages/:message_id/edit',
+            templateUrl: "templates/messages/edit.html",
+            controller: 'MessagesEditCtrl'
+        })
+        .state('messages-show', {
+            url: '/messages/:message_id',
+            templateUrl: "templates/messages/show.html",
+            controller: 'MessagesShowCtrl'
+        })
 })
 
 
@@ -55,36 +55,36 @@ angular.module("flit", ["ui.router"])
 })
 
 .controller('MessagesScheduledCtrl', function($scope, Message, $stateParams) {
-  $scope.messages = Message.all();
+    $scope.messages = Message.all();
 
-  $scope.deleteMessage = function() {
-    // delete message here using $stateParams.message_id
-    // delete /api/messages/:message_id
-    console.log("deleteMessage button clicked");
-  }
+    $scope.deleteMessage = function() {
+        // delete message here using $stateParams.message_id
+        // delete /api/messages/:message_id
+        console.log("deleteMessage button clicked");
+    }
 
-  $scope.sendMessage = function() {
-    // ping server API to ping Twilio
-    // PUT /api/messages/:message_id (update)
-    console.log("sendMessage button clicked");
-  }
+    $scope.sendMessage = function() {
+        // ping server API to ping Twilio
+        // PUT /api/messages/:message_id (update)
+        console.log("sendMessage button clicked");
+    }
 })
 
 .controller('MessagesSentCtrl', function($scope, Message, $stateParams) {
-  $scope.messages = Message.all();
+    $scope.messages = Message.all();
 
-  $scope.deleteMessage = function() {
-    // delete message here using $stateParams.id
-    // delete /api/messages/:message_id
-    console.log("deleteMessage button clicked");
-  }
+    $scope.deleteMessage = function() {
+        // delete message here using $stateParams.id
+        // delete /api/messages/:message_id
+        console.log("deleteMessage button clicked");
+    }
 })
 
 .controller('MessagesEditCtrl', function($scope, Message, $stateParams, $location) {
-  $scope.message = Message.get($stateParams.message_id);
-  console.log($scope.message)
+    $scope.message = Message.get($stateParams.message_id);
+    console.log($scope.message)
 
-  $scope.updateMessage = function(message) {
+    $scope.updateMessage = function(message) {
         console.log("updated:", message);
         $scope.message = message;
         $scope.editMessage = {};
@@ -104,16 +104,16 @@ angular.module("flit", ["ui.router"])
     // TODO: QUERY DB w/ params for Message
     var url = 'http://api.giphy.com/v1/gifs/search?q=dog&api_key=dc6zaTOxFJmzC';
     $http.get(url).then(
-      function(data){
-        $scope.gifs = data.data.data
-        console.log($scope.gifs);
-      },
-      function(error) {
-        console.log(error);
-      })
+        function(data) {
+            $scope.gifs = data.data.data
+            console.log($scope.gifs);
+        },
+        function(error) {
+            console.log(error);
+        })
 })
 
-.factory('Message', function() {
+.factory('Message', function($resource) {
     var messages = [{
         id: 1,
         to: 8675309,
@@ -128,22 +128,27 @@ angular.module("flit", ["ui.router"])
         sent: false
     }];
 
+    var HOST = "http://jho-api.herokuapp.com";
+    return $resource(HOST + '/messages/:id', {
+        id: '@id'
+    })
+
     return {
-      all: function() {
-        return messages;
-      },
-      remove: function(messageId) {
-        messages.splice(messages.indexOf(messageId), 1);
-      },
-      get: function(messageId) {
-        var foundMessage;
-        messages.forEach(function(message) {
-          if (message.id == messageId) {
-            console.log(message)
-            foundMessage = message;
-          }
-        });
-        return foundMessage;
-      }
+        all: function() {
+            return messages;
+        },
+        remove: function(messageId) {
+            messages.splice(messages.indexOf(messageId), 1);
+        },
+        get: function(messageId) {
+            var foundMessage;
+            messages.forEach(function(message) {
+                if (message.id == messageId) {
+                    console.log(message)
+                    foundMessage = message;
+                }
+            });
+            return foundMessage;
+        }
     }
 })

@@ -16,6 +16,11 @@ angular.module("flit", ["ui.router"])
         templateUrl: "templates/messages/show.html",
         controller: 'MessagesShowCtrl'
     })
+    .state('messages-scheduled', {
+      url: '/api/messages/scheduled',
+      templateUrl: "templates/messages/scheduled.html",
+      controller: 'MessagesScheduledCtrl'
+    })
 })
 
 
@@ -36,7 +41,15 @@ angular.module("flit", ["ui.router"])
         // message.id = $scope.message_id;
         $scope.messages.push(message);
     }
+})
 
+.controller('MessagesScheduledCtrl', function($scope, Message, $stateParams) {
+  $scope.messages = Message.all();
+
+  $scope.deleteMessage = function() {
+    // delete message here using $stateParams.id
+    console.log("deleteMessage button clicked");
+  }
 })
 
 .controller('MessagesShowCtrl', function($scope, $stateParams, Message, $http) {
@@ -44,8 +57,8 @@ angular.module("flit", ["ui.router"])
     console.log($scope.message);
     // TODO: Extract data to service so it isn't being handled by controller
     // TODO: QUERY DB w/ params for Message
-    var query = 'http://api.giphy.com/v1/gifs/search?q=dog&api_key=dc6zaTOxFJmzC';
-    $http.get(query).then(
+    var url = 'http://api.giphy.com/v1/gifs/search?q=dog&api_key=dc6zaTOxFJmzC';
+    $http.get(url).then(
       function(data){
         $scope.gifs = data.data.data
         console.log($scope.gifs);
@@ -60,12 +73,14 @@ angular.module("flit", ["ui.router"])
         id: 1,
         to: 8675309,
         from: 1234567,
-        body: "Hey buddy"
+        body: "Hey buddy",
+        sent: false
     }, {
         id: 3,
         to: 1234567,
         from: 8675309,
-        body: "Great job dude"
+        body: "Great job dude",
+        sent: false
     }];
 
     return {

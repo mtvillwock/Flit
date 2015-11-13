@@ -1,0 +1,13 @@
+<h1>{{ User.name }}'s scheduled messages</h1>
+<div ng-controller="MessagesScheduledCtrl" class="message-list">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="message in messages">
+        <a ui-sref="messages-show({message_id: message.id})">
+          {{ message.body }}
+          <span class="recipient">To: {{ message.to }}</span>
+          <span class="sender">From: {{ message.from }}</span>
+        </a>
+        <button ng-submit="deleteMessage()" class="btn btn-danger">Delete</button>
+      </li>
+    </ul>
+  </div>

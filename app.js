@@ -3,13 +3,33 @@ angular.module("flit", ["ui.router", 'ngResource'])
 // CONFIG
 .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/users/new');
 
     $stateProvider
-        .state('messages-index', {
-            url: '/',
-            templateUrl: "templates/messages/index.html",
-            controller: 'MessagesIndexCtrl'
+    // USERS (Register/Login, Phone, Verify Phone)
+    // Users#new is handling login and register
+    .state('users-new', {
+        url: '/users/new',
+        templateUrl: "templates/users/new.html",
+        controller: "UsersCtrl" // MainCtrl?
+    })
+        .state('users-enter-phone', {
+            url: '/users/enter_phone',
+            templateUrl: "templates/users/enter_phone.html",
+            controller: "UsersCtrl" // MainCtrl?
         })
+        .state('users-verify-phone', {
+            url: '/users/verify_phone',
+            templateUrl: "templates/users/verify_phone.html",
+            controller: "UsersCtrl" // MainCtrl?
+        })
+    // MESSAGES ROUTES
+    // Messages (Index, New, Scheduled, Sent)
+    .state('messages-index', {
+        url: '/messages',
+        templateUrl: "templates/messages/index.html",
+        controller: 'MessagesIndexCtrl'
+    })
 
     .state('messages-scheduled', {
         url: '/messages/scheduled',
@@ -33,12 +53,44 @@ angular.module("flit", ["ui.router", 'ngResource'])
         })
 })
 
-
+//////////////
 // CONTROLLERS
+//////////////
 .controller('MainCtrl', function($scope) {
     $scope.greeting = "Hello";
 })
 
+// USERS CONTROLLER
+.controller('UsersCtrl', function($scope, $location) {
+    console.log("fooo");
+    $scope.user = {};
+    // if (currentUser) { $scope.user = User.get(id)}
+    $scope.create = function(user) {
+        console.log("create user clicked");
+        $location.path('/users/enter_phone');
+    };
+
+    $scope.login = function(user) {
+        console.log("user logged in");
+        $location.path('/messages');
+    };
+
+    $scope.addPhone = function(phone) {
+        console.log("add phone clicked");
+        $scope.user.phone_number = phone;
+        console.log("phone added to user:", $scope.user);
+        $location.path('/users/verify_phone');
+    }
+
+    $scope.verifyPhone = function(code) {
+        $scope.user.verification_code = code;
+        // TODO: HTTP request to API
+        console.log("user phone verified:", $scope.user);
+        $location.path('/messages');
+    };
+})
+
+// MESSAGES CONTROLLER
 .controller('MessagesIndexCtrl', function($scope, Message) {
 
     $scope.messages = Message.all();
@@ -128,10 +180,10 @@ angular.module("flit", ["ui.router", 'ngResource'])
         sent: false
     }];
 
-    var HOST = "http://jho-api.herokuapp.com";
-    return $resource(HOST + '/messages/:id', {
-        id: '@id'
-    })
+    // var HOST = "http://jho-api.herokuapp.com";
+    // return $resource(HOST + '/messages/:id', {
+    //     id: '@id'
+    // })
 
     return {
         all: function() {

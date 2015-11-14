@@ -1,0 +1,9 @@
+<div class="user-verify-phone" ng-controller="UsersCtrl">
+  <!-- ng-controller="PhoneCtrl" -->
+  <form ng-submit="verifyPhone(code)">
+    <!-- TODO: Add ngMask -->
+    <!-- TODO: set user.phone_verified in Ctrl -->
+    <input type="number" min="6" max="6" ng-model="code">
+    <input type="submit" class="btn btn-primary" value="Add Phone">
+  </form>
+</div>

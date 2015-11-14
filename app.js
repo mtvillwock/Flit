@@ -3,6 +3,7 @@ angular.module("flit", ["ui.router", 'ngResource'])
 // CONFIG
 .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/users/new');
 
     $stateProvider
     // USERS (Register/Login, Phone, Verify Phone)
@@ -66,7 +67,7 @@ angular.module("flit", ["ui.router", 'ngResource'])
     // if (currentUser) { $scope.user = User.get(id)}
     $scope.create = function(user) {
         console.log("create user clicked");
-        $location('/users/enter_phone');
+        $location.path('/users/enter_phone');
     };
 
     $scope.login = function(user) {

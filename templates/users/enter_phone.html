@@ -1,0 +1,8 @@
+<div class="user-phone" ng-controller="UsersCtrl">
+  <!-- ng-controller="PhoneCtrl" ? -->
+  <form ng-submit="addPhone(phone_number)">
+    <!-- TODO: Add ngMask -->
+    <input type="tel" ng-model="phone_number">
+    <input type="submit" class="btn btn-primary" value="Add Phone">
+  </form>
+</div>
